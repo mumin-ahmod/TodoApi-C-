@@ -1,3 +1,6 @@
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+
 namespace TodoApi.Models
 {
     public class TodoItem
@@ -7,6 +10,9 @@ namespace TodoApi.Models
         public bool IsComplete { get; set; }
 
         public int UserId { get; set; } // Foreign key to User
+
+        [JsonIgnore]
+        [ValidateNever]
         public User User { get; set; } // Navigation property
     }
 }

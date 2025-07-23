@@ -165,3 +165,4 @@
 /workspaces/mumin-projects/todoApi/TodoApi/obj/Debug/net9.0/ref/TodoApi.dll
 /workspaces/mumin-projects/todoApi/TodoApi/bin/Debug/net9.0/BCrypt.Net-Next.dll
 /workspaces/mumin-projects/todoApi/TodoApi/bin/Debug/net9.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/workspaces/mumin-projects/todoApi/TodoApi/obj/Debug/net9.0/TodoApi.sourcelink.json

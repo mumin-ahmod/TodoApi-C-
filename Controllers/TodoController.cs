@@ -24,10 +24,10 @@ namespace TodoApi.Controllers
         {
             var nameId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            foreach (var claim in User.Claims)
-            {
-                Console.WriteLine($"Type: {claim.Type}, Value: {claim.Value}");
-            }
+            // foreach (var claim in User.Claims)
+            // {
+            //     Console.WriteLine($"Type: {claim.Type}, Value: {claim.Value}");
+            // }
 
 
             if (!int.TryParse(nameId, out var userId))
@@ -65,8 +65,25 @@ namespace TodoApi.Controllers
         [HttpPost]
         public async Task<ActionResult<TodoItem>> PostTodoItem(TodoItem todoItem)
         {
-            var userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value);
+
+            var nameId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            foreach (var claim in User.Claims)
+            {
+                Console.WriteLine($"Type: {claim.Type}, Value: {claim.Value}");
+            }
+
+            if (!int.TryParse(nameId, out var userId))
+            {
+                return Unauthorized("Invalid or missing NameIdentifier claim.");
+            }
             todoItem.UserId = userId;
+            Console.WriteLine("USER ID = " + userId);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             _context.TodoItems.Add(todoItem);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetTodoItem), new { id = todoItem.Id }, todoItem);
