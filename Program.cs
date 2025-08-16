@@ -12,6 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
 // ✅ Show detailed token errors (optional in dev only)
 IdentityModelEventSource.ShowPII = true;
 
+
+
+
 // 🔧 Add controllers
 builder.Services.AddControllers();
 
@@ -87,6 +90,18 @@ builder.Services.AddSwaggerGen(c =>
 // 👨‍💻 DI for your services
 builder.Services.AddScoped<AuthService>();
 
+// Add CORS services
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()  // Allow all origins
+               .AllowAnyMethod()  // Allow all HTTP methods
+               .AllowAnyHeader();  // Allow all headers
+    });
+});
+
+
 var app = builder.Build();
 
 // 🌐 Middleware pipeline
@@ -95,6 +110,19 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
+// 🌐 Middleware pipeline
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+
+
+// Enable CORS globally
+app.UseCors("AllowAll"); 
 
 // (Optional) log all auth headers for debugging
 app.Use(async (context, next) =>
